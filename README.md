@@ -6,13 +6,13 @@ A finished layout will look something like this:
 
       
 
-      Layer:      1     2     3 
+      Layer:      1         2       3 
       
-      row 1:      oar   zyq   gfd
+      row 1:      o a r   z y q   g f d
       
-      row 2:      tes   kc.   xnp 
+      row 2:      t e s   k c .   x n p 
       
-      row 3:      him   bvj   lwu 
+      row 3:      h i m   b v j   l w u 
 
 NineKey's task is to place the letters A - Z and the dot "." character onto a 3 x 3 grid of keyboard keys using 3 layers. A layer is a way to give a single physical key a way to produce more than one character. On a normal keyboard, the shift key allows the "1" key to output an exclamation mark. On programmable keyboards or macropads, users can create custom mappings with many layers.   
 
