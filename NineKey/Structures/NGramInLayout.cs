@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace NineKey.Structures
 {
+    /// <summary>
     /// Class <c>NGramInLayout</c> represents a single ngram (ex: "ing")
     /// as it is arranged in NineKeyLayout. This class keeps track of 
     /// the number of rows, columns, and layers used by the ngram.
     /// That data is later used by the FitnessTester to determine
     /// how efficiently the ngram is laid out.
+    /// </summary>
     internal class NGramInLayout
     {
         private NineKeyLayout _layout;
