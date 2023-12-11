@@ -6,7 +6,7 @@ A finished layout will look something like this:
 
       
 
-      Layer:      1         2       3 
+      Layer:        1       2       3 
       
       row 1:      o a r   z y q   g f d
       
