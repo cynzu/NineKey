@@ -4,10 +4,9 @@ NineKey is a C# Windows app which uses a genetic algorithm to produce efficient 
 A finished layout will look something like this:
 
 Layer: 1     2     3 
-<br>
-      oar | zyq | gfd | 
-      tes | kc. | xnp | 
-      him | bvj | lwu | 
+ <br>     oar | zyq | gfd | 
+ <br>     tes | kc. | xnp | 
+ <br>     him | bvj | lwu | 
 
 NineKey's task is to place the letters A - Z and the dot "." character onto a 3 x 3 grid of keyboard keys using 3 layers. A layer is a way to give a single physical key a way to produce more than one character. On a normal keyboard, the shift key allows the "1" key to output an exclamation mark. On programmable keyboards or macropads, users can create custom mappings with many layers.   
 
