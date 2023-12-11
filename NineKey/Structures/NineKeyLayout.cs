@@ -3,7 +3,7 @@
 namespace NineKey.Structures
 {
     /// <summary>
-    /// Each <c>NineKeyLayout</c> in the represents a keyboard layout
+    /// Each <c>NineKeyLayout</c> represents a keyboard layout
     /// with 3 rows and 3 columns on 3 different layers
     /// consisting of the 26 letters in the alphabet plus a dot.
     /// When translated to an actual keyboard layout, the item at [0] will be 
