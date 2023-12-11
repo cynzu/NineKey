@@ -4,6 +4,7 @@ NineKey is a C# Windows app which uses a genetic algorithm to produce efficient 
 A finished layout will look something like this:
 
 Layer: 1     2     3 
+<br>
       oar | zyq | gfd | 
       tes | kc. | xnp | 
       him | bvj | lwu | 
