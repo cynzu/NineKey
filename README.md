@@ -20,6 +20,6 @@ A genetic algorithm mimics the process of biological evolution in order to find 
 
 NineKey tries to produce the most efficient layout possible, with commonly used characters and combinations of characters easy to reach. It starts by creating a group of charcter arrays containing A - Z plus dot. It then scrambles the characters and tests them to see which char[27], when placed on the keyboard, are efficient. Then the algorithm throws out the lowest scoring character arrays, replacing them with copies of the highest scoring arrays which have been modified slightly. That new child population is then tested, and the process repeats itself.  
 
-Currently (Dec 11, 2023), the variables used by the algorithm (how many char[27]'s to create in each generation, how many generations to create, etc.) are hardcoded in a config file. I plan to add a user interface which allows users to modify those parameters themselves. 
+This is a work in progress. As of Dec 19, 2023, the user interface does not yet have widgets for setting all of the parameters used when running the algorithm.
 
 Inspiration to use a genetic algorithm to get an efficient keyboard layout came from here: https://www.youtube.com/watch?v=xDQXokCON-w&list=WL&index=2&t=25s.
