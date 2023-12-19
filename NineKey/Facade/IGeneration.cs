@@ -1,4 +1,4 @@
-﻿using NineKey.Structures;
+using NineKey.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ namespace NineKey.Facade
     internal interface IGeneration
     {
         List<NineKeyLayout> TopScoringLayouts { get; }
+        Dictionary<int, HashSet<NineKeyLayout>> LayoutsByScore  { get; }
         public int Ordinal { get; }
         public int TopScore { get; }
     }
