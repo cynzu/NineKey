@@ -1,35 +1,107 @@
 using System.Text;
+using System.Windows.Forms;
 using NineKey.Facade;
 
 namespace NineKey
 {
     public partial class NineKeyForm : Form, IGenerationObserver
     {
+        private Config _config = new Config();
+        private int _prevOrdinal = -1;
+
         public NineKeyForm() 
         {
             InitializeComponent();
+            SetWidgetDefaults();
+        }
+
+        private void SetWidgetDefaults()
+        {
+
+            ckBxLetterLayerStatic.Checked = _config.LettersOnLayersByFreq;
+            ddlNumGens.Value = Config.DEFAULT_NUM_OF_GENERATIONS;
+            ddlPopulationSize.Value = Config.DEFAULT_POPULATION_SIZE;
+            ddlNumOfMutations.Value = Config.DEFAULT_NUM_OF_MUTATIONS;
+            ddlPercentToReplace.Value = Config.DEFAULT_PERCENT_TO_REPLACE;
+            ddlColSameLayer.Value = Config.DEFAULT_POINTS_COL_1_LAYER;
+            ddlCol2Layers.Value = Config.DEFAULT_POINTS_COL_2_LAYERS;
+            ddlCol3Layers.Value = Config.DEFAULT_POINTS_COL_3_LAYERS;
+            rbRow1LayerAdd.Checked = _config.SameRowSameLayerAdd;
+            rbRow2LayersAdd.Checked = _config.SameRow2LayersAdd;
+            rbRow3LayersAdd.Checked = _config.SameRow3LayersAdd;
+
+            rbCol1LayerAdd.Checked = _config.SameColSameLayerAdd;
+            rbCol2LayersAdd.Checked = _config.SameCol2LayersAdd;
+            rbCol3LayersAdd.Checked = _config.SameCol3LayersAdd;
+
+            rbCol1LayerSubtract.Checked = !(_config.SameColSameLayerAdd);
+            rbCol2LayersSubtract.Checked = !(_config.SameCol2LayersAdd);
+            rbCol3LayersSubtract.Checked = !(_config.SameCol3LayersAdd);
         }
 
         private void btnBegin_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             treeView1.Nodes.Clear();
             richTextBox1.Clear();
+            SetConfigValues();
             IGenerationObservable producer = Factory.Producer;
+            producer.AcceptConfig(_config);
             producer.AddGenerationObserver(this);
             producer.FindTheBestLayout();
+            Cursor.Current = Cursors.Default;
 
         } // end of btnBegin_Click
 
+        private void SetConfigValues()
+        {
+            this._config.NumOfGenerations = (int)this.ddlNumGens.Value;
+            this._config.PopulationSize = (int) this.ddlPopulationSize.Value;
+            this._config.NumOfMutations = (int)this.ddlNumGens.Value;
+            this._config.PercentToReplace = this.ddlPercentToReplace.Value / 100;
+
+            this._config.SameRowSameLayerAdd = this.rbRow1LayerAdd.Checked;
+            this._config.SameRow2LayersAdd = this.rbRow2LayersAdd.Checked;
+            this._config.SameRow3LayersAdd = this.rbRow3LayersAdd.Checked;
+
+            this._config.SameColSameLayerAdd = this.rbCol1LayerAdd.Checked;
+            this._config.SameCol2LayersAdd = this.rbCol2LayersAdd.Checked;
+            this._config.SameCol3LayersAdd = this.rbCol3LayersAdd.Checked;
+
+            this._config.SameRowSameLayerPoints = (int)this.ddlRowSameLayer.Value;
+            this._config.SameRow2LayersPoints = (int)this.ddlRow2Layers.Value;
+            this._config.SameRow3LayersPoints = (int)this.ddlRow3Layers.Value;
+
+            this._config.SameColSameLayerPoints = (int)this.ddlColSameLayer.Value;
+            this._config.SameCol2LayersPoints = (int)this.ddlCol2Layers.Value;
+            this._config.SameCol3LayersPoints = (int)this.ddlCol3Layers.Value;
+
+            this._config.LettersOnLayersByFreq = this.ckBxLetterLayerStatic.Checked;
+        } // end of SetConfigValues
+
         void IGenerationObserver.Observe(IGeneration g)
         {
-            TreeNode tn = treeView1.Nodes.Add
-                ("Generation: " + (g.Ordinal+1) + " Top Score: " + g.TopScore + "\t");
-
-            foreach (INineKeyLayout nkl in g.TopScoringLayouts)
+            if (g.Ordinal == _prevOrdinal) { return; }
+            else
             {
-                tn.Nodes.Add(nkl.ToString() + "\n");
+                _prevOrdinal = g.Ordinal;
+                //TreeNode tn = treeView1.Nodes.Add
+                //("Generation: " + (g.Ordinal + 1) + " Top Score: " + g.TopScore + "\t");
+
+                List<int> scores = g.LayoutsByScore.Keys.ToList<int>();
+                scores.Sort();
+                foreach (int score in scores)
+                {
+                    TreeNode treeNode = treeView1.Nodes.Add
+                        ("Generation: " + (g.Ordinal + 1) + " Score: " + score + "\t");
+                    foreach (INineKeyLayout layout in g.LayoutsByScore[score])
+                    {
+                        treeNode.Nodes.Add(layout.ToString() + "\n");
+                    }
+                    treeNode.ExpandAll();
+                }
             }
-        }
+        } // end of IGenerationObserver.Observe
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
