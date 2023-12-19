@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +25,13 @@ namespace NineKey.Engine
     /// </summary>
     internal class FitnessTester
     {
+        private Config _config = new Config();
+
+        public FitnessTester(Config config)
+        {
+            _config = config;
+        }
+
         /// <summary>
         /// Applies tests to judge how fit the layout is.
         /// </summary>
@@ -47,11 +54,11 @@ namespace NineKey.Engine
                     score += ngil[n].Score;
 
                 } // end of looping over AllNGrams 
-
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString()); // better logging needed here
+                Console.WriteLine(e.ToString()); // >>> better logging needed here <<<
             }
             return score;
         } // end of Test
@@ -62,12 +69,13 @@ namespace NineKey.Engine
         /// </summary>
         private int SetTopLayerScore(NineKeyLayout layout)
         {
+            // >>> NEED CONFIG FOR THIS <<<
             int score = 500; // keep the weight somewhat proportional to the ngram scores
 
             // the first 9 letters are on the topmost layer
             for (int i = 0; i < 8; i++)
             {
-                score += Letter.GetLetterByName(layout.KeyLetters[i]).Frequency * 100;
+                score += Letter.GetLetterByName(layout.KeyLetters[i]).Frequency * 1000;
             }
             return score;
         } // end of SetTopLayerScore
@@ -280,7 +288,7 @@ namespace NineKey.Engine
 
             if (rowPositions.Count == 1)
             {
-                adj = true;
+                adj = false; // on same row is not the same as on adjacent rows
             }
             else if (rowPositions.Count >= 2 && rowPositions.Contains(RowPosition.MIDDLE))
             {
@@ -338,7 +346,7 @@ namespace NineKey.Engine
         /// </summary>
         /// <param name="ngil">the NGramInLayout instance to test</param>
         /// <param name="weight">an int representing how often the ngram appears
-        ///     in the English language</param>
+        ///     in the English langu8age</param>
         /// <returns>an int representing the fitness of the NGramInLayout
         /// focusing on how well the rows are laid out</returns>
         private int GetRowScore(NGramInLayout ngil, int weight)
@@ -346,20 +354,50 @@ namespace NineKey.Engine
             int score = 0;
             if (ngil.AllOnSameRow && ngil.NumOfDiffLayers == 1)
             {
-                score += weight + 100;
+                if (_config.SameColSameLayerAdd)
+                {
+                    score += (weight * _config.SameRowSameLayerPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameRowSameLayerPoints);
+                }
+                
             }
             else if (ngil.AllOnSameRow && ngil.NumOfDiffLayers == 2)
             {
-                score += weight + 45;
+                if (_config.SameRow2LayersAdd)
+                {
+                    score += (weight * _config.SameRow2LayersPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameRow2LayersPoints);
+                }
             }
             else if (ngil.AllOnSameRow && ngil.NumOfDiffLayers == 3)
             {
-                score += weight + 10;
+                if (_config.SameRow2LayersAdd)
+                {
+                    score += (weight * _config.SameRow3LayersPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameRow3LayersPoints);
+                }
+                    
             }
             if (ngil.AllOnAdjacentRows)
             {
-                score += weight + 30;
+                score += (weight + 30); // >>> NEED CONFIG FOR THIS <<<
             }
+
+            if (ngil.InCorrectOrder)
+            {
+                score += (weight + 50); // >>> NEED CONFIG FOR THIS <<<
+            }
+
+
             return score;
         } // end of GetRowScore
 
@@ -376,19 +414,39 @@ namespace NineKey.Engine
         private int GetColScore(NGramInLayout ngil, int weight)
         {
             int score = 0;
-            if (ngil.AllOnSameColumn && !ngil.AllOnSameKey) // same col can be an impediment so subtract  
+            if (ngil.AllOnSameColumn && ngil.NumOfDiffLayers == 1)
             {
-                score -= 50;
+                if (_config.SameColSameLayerAdd)
+                {
+                    score += (weight * _config.SameColSameLayerPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameColSameLayerPoints);
+                }
             }
-            else if (ngil.AllOnSameKey)
+            else if (ngil.AllOnSameColumn && ngil.NumOfDiffLayers == 2)
             {
-                score += 20;
+                if (_config.SameCol2LayersAdd)
+                {
+                    score += (weight * _config.SameCol2LayersPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameCol2LayersPoints);
+                }
             }
-            if (ngil.AllOnAdjacentCols)
+            else if (ngil.AllOnSameColumn && ngil.NumOfDiffLayers == 3)
             {
-                score += weight + 10;
+                if (_config.SameCol2LayersAdd)
+                {
+                    score += (weight * _config.SameCol3LayersPoints);
+                }
+                else
+                {
+                    score -= (weight * _config.SameCol3LayersPoints);
+                }
             }
-
             return score;
         } // end of GetColScore
 
@@ -407,15 +465,15 @@ namespace NineKey.Engine
             int score = 0;
             if (ngil.AllOnSameDiagonal && ngil.NumOfDiffLayers == 1)
             {
-                score += weight + 250;
+                score += weight + 250; // NEED CONFIG FOR THIS
             }
             else if (ngil.AllOnSameDiagonal && ngil.NumOfDiffLayers == 2)
             {
-                score += weight + 30;
+                score += weight + 30; // NEED CONFIG FOR THIS
             }
             else if (ngil.AllOnSameDiagonal && ngil.NumOfDiffLayers == 3)
             {
-                score += weight + 5;
+                score += weight + 5; // NEED CONFIG FOR THIS
             }
 
             return score;
@@ -436,18 +494,19 @@ namespace NineKey.Engine
             int score = 0;
             if (ngil.NumOfDiffLayers == 1)
             {
-                score += weight + 100;
+                score += weight + 100; // NEED CONFIG FOR THIS
             }
             else if (ngil.NumOfDiffLayers == 2 && ngil.NGram.Chars.Length > 2)
             {
-                score += weight + 10;
+                score += weight + 10; // NEED CONFIG FOR THIS
             }
             else if (ngil.NumOfDiffLayers == 3 && !ngil.AllOnSameKey)
             {
-                score -= weight + 5; // subtract points if all are on different layers
+                score -= weight + 5; // NEED CONFIG FOR THIS
             }
 
             return score;
-        } // end of GetDiagonalScore
-    } // end of abstract class FitnessTester
+        } // end of GetLayerScore
+
+    } // end of class FitnessTester
 }  // end of namespace NineKey
