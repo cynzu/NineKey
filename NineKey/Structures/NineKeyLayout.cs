@@ -1,4 +1,4 @@
-﻿using NineKey.Facade;
+using NineKey.Facade;
 
 namespace NineKey.Structures
 {
@@ -13,7 +13,7 @@ namespace NineKey.Structures
     /// </summary>
     internal class NineKeyLayout : IComparable, INineKeyLayout
     {
-        private char[] _keyLetters = new char[Config.NUMBER_OF_KEYS];
+        private char[] _keyLetters = new char[0];
         private int _fitnessScore = 0;
 
         public char[] KeyLetters { get => _keyLetters; }
