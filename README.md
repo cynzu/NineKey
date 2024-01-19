@@ -23,3 +23,5 @@ NineKey tries to produce the most efficient layout possible, with commonly used 
 This is a work in progress. As of Dec 19, 2023, the user interface does not yet have widgets for setting all of the parameters used when running the algorithm.
 
 Inspiration to use a genetic algorithm to get an efficient keyboard layout came from here: https://www.youtube.com/watch?v=xDQXokCON-w&list=WL&index=2&t=25s.
+
+To see the NineKey layout I actually use as my daily driver go to https://configure.zsa.io/voyager/layouts/WgBnP/latest/0  and click the 'Play Layout Tour' button in the lower left corner.
