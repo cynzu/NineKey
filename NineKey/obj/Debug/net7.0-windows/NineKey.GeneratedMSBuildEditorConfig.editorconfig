@@ -14,4 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = NineKey
-build_property.ProjectDir = C:\cynzu\NineKey\NineKey\
+build_property.ProjectDir = C:\cynzu\devProjects\NineKey\NineKey\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

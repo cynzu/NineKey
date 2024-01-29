@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NineKey")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84f73bf492eb2978ad49e7c28fe879f84e14546d")]
 [assembly: System.Reflection.AssemblyProductAttribute("NineKey")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NineKey")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
