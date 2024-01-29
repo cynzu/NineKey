@@ -19,10 +19,10 @@ namespace NineKey.Structures
     {
         private readonly char[] _chars;
         private readonly int _frequency;
-        private static int s_numOfAllNGrams = 45;
-        private static NGram[] s_allNGrams = new NGram[s_numOfAllNGrams];
-        private static Dictionary<char, List<NGram>> s_NGramsByChar =
-            new Dictionary<char, List<NGram>>();
+        private static readonly int s_numOfAllNGrams = 45;
+        private static readonly NGram[] s_allNGrams = new NGram[s_numOfAllNGrams];
+        private static readonly Dictionary<char, List<NGram>> s_NGramsByChar =
+            new();
 
         public char[] Chars => _chars;
         public int Frequency => _frequency;
@@ -57,12 +57,12 @@ namespace NineKey.Structures
         {
             if (index > s_numOfAllNGrams)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            NGram ngram = new NGram(chars, s_allNGrams.Length - index);
+            NGram ngram = new(chars, s_allNGrams.Length - index);
             s_allNGrams[index] = ngram;
-            List<NGram> ngramList = new List<NGram>();
+            List<NGram> ngramList = new();
             foreach (char c in chars)
             {
                 if (!s_NGramsByChar.ContainsKey(c))

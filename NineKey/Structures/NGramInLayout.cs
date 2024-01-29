@@ -15,9 +15,9 @@ namespace NineKey.Structures
     /// </summary>
     internal class NGramInLayout
     {
-        private NineKeyLayout _layout;
-        private NGram _nGram;
-        private Dictionary<char, int> _charIndexes = new Dictionary<char, int>();
+        private readonly NineKeyLayout _layout;
+        private readonly NGram _nGram;
+        private Dictionary<char, int> _charIndexes = new();
         private int _score = 0;
 
         public NGramInLayout(NGram nGram, NineKeyLayout layout)

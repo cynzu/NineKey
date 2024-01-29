@@ -25,7 +25,7 @@ namespace NineKey.Engine
     /// </summary>
     internal class FitnessTester
     {
-        private Config _config = new Config();
+        private readonly Config _config = new();
 
         public FitnessTester(Config config)
         {
@@ -67,7 +67,7 @@ namespace NineKey.Engine
         /// The layout is rewarded for having the most frequently used 
         /// keys on the topmost layer.
         /// </summary>
-        private int SetTopLayerScore(NineKeyLayout layout)
+        private static int SetTopLayerScore(NineKeyLayout layout)
         {
             // >>> NEED CONFIG FOR THIS <<<
             int score = 500; // keep the weight somewhat proportional to the ngram scores
@@ -92,9 +92,9 @@ namespace NineKey.Engine
             NGram ng = ngil.NGram;
 
             int indexOfCharInLayout = -1;
-            HashSet<LayerPosition> layerPositions = new HashSet<LayerPosition>();
-            HashSet<RowPosition> rowPositions = new HashSet<RowPosition>();
-            HashSet<ColPosition> colPositions = new HashSet<ColPosition>();
+            HashSet<LayerPosition> layerPositions = new();
+            HashSet<RowPosition> rowPositions = new();
+            HashSet<ColPosition> colPositions = new();
 
             for (int c = 0; c < ng.Chars.Length; c++)
             {
@@ -185,7 +185,7 @@ namespace NineKey.Engine
         /// </summary>
         /// <param name="index">the position of a char in the char[27] </param>
         /// <returns>LayerPosition enum value representing the index of the layer</returns>
-        private LayerPosition GetLayerPosition(int index)
+        private static LayerPosition GetLayerPosition(int index)
         {
             LayerPosition position = LayerPosition.TOP;
             if (index >= 0 && index <= 8)
@@ -215,9 +215,9 @@ namespace NineKey.Engine
         /// </summary>
         /// <param name="index">the position of a char in the char[27] </param>
         /// <returns>RowPosition enum value representing the index of the row</returns>
-        private RowPosition GetRowPosition(int index)
+        private static RowPosition GetRowPosition(int index)
         {
-            RowPosition position = RowPosition.TOP;
+            RowPosition position;
             if (index >= 0 && index <= 2 ||
                 index >= 9 && index <= 11 ||
                 index >= 18 && index <= 20)
@@ -252,10 +252,9 @@ namespace NineKey.Engine
         /// </summary>
         /// <param name="index">the position of a char in the char[27] </param>
         /// <returns>ColPosition enum value representing the index of the column</returns>
-        private ColPosition GetColPosition(int index)
+        private static ColPosition GetColPosition(int index)
         {
-            ColPosition position = ColPosition.FIRST;
-
+            ColPosition position;
             if (index % 3 == 0)
             {
                 position = ColPosition.FIRST;
@@ -304,7 +303,7 @@ namespace NineKey.Engine
         /// </summary>
         /// <param name="colPositions">the group of column positions to consider</param>
         /// <returns>true when the columns are adjacent, else returns false</returns>
-        private bool AreColsAdjacent(HashSet<ColPosition> colPositions)
+        private static bool AreColsAdjacent(HashSet<ColPosition> colPositions)
         {
             bool adj = false;
 
@@ -328,7 +327,7 @@ namespace NineKey.Engine
         ///     which has been 'flattened' into a char[27] </param>
         /// <returns>true if the index passed in as a parameter holds the center
         ///     position of any row or column in the 9 x 9 x 3-layer grid.</returns>
-        private bool IndexIsInCenterSquare(int index)
+        private static bool IndexIsInCenterSquare(int index)
         {
             bool isCenter = false;
 
@@ -460,7 +459,7 @@ namespace NineKey.Engine
         ///     in the English language</param>
         /// <returns>an int representing the fitness of the NGramInLayout
         /// focusing on how well the diagonal grid-cells  are laid out</returns>
-        private int GetDiagonalScore(NGramInLayout ngil, int weight)
+        private static int GetDiagonalScore(NGramInLayout ngil, int weight)
         {
             int score = 0;
             if (ngil.AllOnSameDiagonal && ngil.NumOfDiffLayers == 1)
@@ -489,7 +488,7 @@ namespace NineKey.Engine
         ///     in the English language</param>
         /// <returns>an int representing the fitness of the NGramInLayout
         /// focusing on how well the layers are laid out</returns>
-        private int GetLayerScore(NGramInLayout ngil, int weight)
+        private static int GetLayerScore(NGramInLayout ngil, int weight)
         {
             int score = 0;
             if (ngil.NumOfDiffLayers == 1)

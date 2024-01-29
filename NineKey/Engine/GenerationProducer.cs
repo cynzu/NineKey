@@ -21,10 +21,10 @@ namespace NineKey.Engine
     internal class GenerationProducer : IGenerationObservable
     {
         private int _generationOrdinal = 0;
-        private Random _random = new Random();
-        private Generation[] _generations = new Generation[0];
-        private List<IGenerationObserver> _observers = new List<IGenerationObserver>();
-        private Config _config = new Config();
+        private Random _random = new();
+        private Generation[] _generations = Array.Empty<Generation>();
+        private readonly List<IGenerationObserver> _observers = new();
+        private Config _config = new();
 
         public GenerationProducer() { }
 
@@ -67,7 +67,7 @@ namespace NineKey.Engine
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString()); // >>> NEED BETTER LOGGING HERE <<<
             }
 
             return _generations;

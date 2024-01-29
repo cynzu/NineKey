@@ -13,7 +13,7 @@ namespace NineKey.Structures
     /// </summary>
     internal class NineKeyLayout : IComparable, INineKeyLayout
     {
-        private char[] _keyLetters = new char[0];
+        private readonly char[] _keyLetters = Array.Empty<char>();
         private int _fitnessScore = 0;
 
         public char[] KeyLetters { get => _keyLetters; }
@@ -30,7 +30,7 @@ namespace NineKey.Structures
         {
             int comparison = 0;
 
-            if (obj != null && obj is NineKeyLayout)
+            if (obj is not null and NineKeyLayout)
             {
                 // sort with the highest score first, lowest score last
                 comparison = ((NineKeyLayout)obj)._fitnessScore.CompareTo(_fitnessScore);

@@ -38,26 +38,26 @@ namespace NineKey.Structures
         /// <summary>
         /// the list of NineKeyLayouts in this Generation
         /// </summary>
-        private NineKeyLayout[] _layouts = new NineKeyLayout[0];
+        private NineKeyLayout[] _layouts = Array.Empty<NineKeyLayout>();
 
         /// <summary>
         /// a list of layouts which achieved the top _score in this generation
         /// </summary>
-        private List<NineKeyLayout> _topScoringLayouts = new List<NineKeyLayout>();
+        private readonly List<NineKeyLayout> _topScoringLayouts = new List<NineKeyLayout>();
 
-        private Dictionary<int, HashSet<NineKeyLayout>> _layoutsByScore 
-            = new Dictionary<int, HashSet<NineKeyLayout>>();
+        private readonly Dictionary<int, HashSet<NineKeyLayout>> _layoutsByScore
+            = new();
 
         /// <summary>
         /// the _ordinal representing when this Generation was created relative 
         /// to other Generations, ex: the first generation is 0, next is 1, etc.
         /// </summary>
-        public int Ordinal { get => _ordinal; set => _ordinal = value; }
+        public int Ordinal { get => _ordinal; init => _ordinal = value; }
 
         /// <summary>
         /// the list of NineKeyLayouts in this Generation
         /// </summary>
-        public NineKeyLayout[] Layouts { get => _layouts; set => _layouts = value; }
+        public NineKeyLayout[] Layouts { get => _layouts; init => _layouts = value; }
 
         /// <summary>
         /// the highest _score achieved by any of the NineKeyLayout layouts in this generation
@@ -114,8 +114,10 @@ namespace NineKey.Structures
 
                 if (!_layoutsByScore.ContainsKey(layout.FitnessScore))
                 {
-                    HashSet<NineKeyLayout> values = new HashSet<NineKeyLayout>();
-                    values.Add(layout);
+                    HashSet<NineKeyLayout> values = new()
+                    {
+                        layout
+                    };
                     _layoutsByScore[layout.FitnessScore] = values;
                 } 
                 else

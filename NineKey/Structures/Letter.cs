@@ -1,13 +1,8 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NineKey.Structures
 {
-    
+
     /// <summary>
     /// Class <c>Letter</c> represents a letter in the alphabet or the dot character. 
     /// A Letter may belong to zero or more ngrams, letters which are commonly 
@@ -26,14 +21,14 @@ namespace NineKey.Structures
         private readonly int _ordinal;
         private readonly NGram[] _ngrams;
 
-        private static Letter[] _allLetters = new Letter[Config.NUMBER_OF_KEYS]; // A - Z plus . [dot]
+        private static readonly Letter[] _allLetters = new Letter[Config.NUMBER_OF_KEYS]; // A - Z plus . [dot]
 
-        private static Letter[] _mostFreqLetters = new Letter[Config.NUMBER_OF_KEYS/3];
-        private static Letter[] _midFreqLetters = new Letter[Config.NUMBER_OF_KEYS / 3];
-        private static Letter[] _leastFreqLetters = new Letter[Config.NUMBER_OF_KEYS / 3];
+        private static readonly Letter[] _mostFreqLetters = new Letter[Config.NUMBER_OF_KEYS / 3];
+        private static readonly Letter[] _midFreqLetters = new Letter[Config.NUMBER_OF_KEYS / 3];
+        private static readonly Letter[] _leastFreqLetters = new Letter[Config.NUMBER_OF_KEYS / 3];
 
-        private static Dictionary<char, Letter> _lettersByName =
-            new Dictionary<char, Letter>();
+        private static readonly Dictionary<char, Letter> _lettersByName =
+            new();
 
         public int Frequency => _frequency;
         public char Name => _name;
@@ -142,16 +137,21 @@ namespace NineKey.Structures
         }
         private class SortFreqDesc : IComparer
         {
-            int IComparer.Compare(object a, object b)
+            int IComparer.Compare(object? a, object? b)
             {
-                Letter l1 = (Letter)a;
-                Letter l2 = (Letter)b;
-                if (l1.Frequency > l2.Frequency)
-                    return -1;
-                if (l1.Frequency < l2.Frequency)
-                    return 1;
-                else
-                    return 0;
+                int comparison = -1;
+                if (a is not null && b is not null)
+                {
+                    Letter l1 = (Letter)a;
+                    Letter l2 = (Letter)b;
+                    if (l1.Frequency > l2.Frequency)
+                        comparison = - 1;
+                    if (l1.Frequency < l2.Frequency)
+                        comparison = 1;
+                    else
+                        comparison = 0;
+                }
+               return comparison;
             }
         } // end of inner class SortFreqDesc
 
